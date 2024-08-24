@@ -4,7 +4,9 @@ export interface LocationData {
   location: {
     name: string;
     region: string,
-    country: string
+    country: string,
+    lat: number,
+    lon: number
   },
   current: {
     temp_c: number,
@@ -96,4 +98,10 @@ export interface TodayData {
 export interface City {
     value: string;
     label: string;
-  }
+}
+
+export interface SidebarProps {
+    onSelect: (screen: string) => void;
+    activeScreen: string;
+    toggleSidebar: () => void;
+}
