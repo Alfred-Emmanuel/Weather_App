@@ -7,8 +7,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect, activeScreen, toggleSidebar
   const { theme, toggleTheme } = useTheme();
   return (
     <div className={`w-full h-screen absolute top-0 z-50 lg:relative ${theme === 'dark' ? 'bg-[#1A202C] text-white' : 'bg-white text-black'}`}>
-        <div className='lg:hidden h-12 flex items-center justify-end border border-b px-5'>
-            <svg onClick={toggleSidebar} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 text-white font-extrabold">
+        <div className={`lg:hidden h-12 flex items-center justify-end border border-b px-5 `}>
+            <svg onClick={toggleSidebar} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`size-6 font-extrabold ${theme === 'dark' ? ' text-white' : ' text-black'}`}>
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
             </svg>
         </div>
@@ -18,7 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect, activeScreen, toggleSidebar
         <div className="mt-3 py-5 flex flex-col lg:items-center gap-3">
             <div
               onClick={() => onSelect('weather')}
-              className={`w-full flex lg:items-center lg:justify-center gap-2 text-slate-400 pl-3 lg:pl-0 py-4 cursor-pointer ${activeScreen === 'weather' ? 'bg-slate-900 border-l-4' : 'hover:bg-slate-900 hover:border-l-4'}`}
+              className={`w-full flex lg:items-center lg:justify-center gap-2 text-slate-400 pl-3 lg:pl-0 py-4 cursor-pointer ${activeScreen === 'weather' ?  'bg-slate-900 border-l-4' : 'hover:bg-slate-900 hover:border-l-4'}`}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
                     <path fillRule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clipRule="evenodd" />
@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect, activeScreen, toggleSidebar
             </div>
         </div>
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-[10%] border">
-        <button onClick={toggleTheme} className="text-white text-xs font-semibold">
+        <button onClick={toggleTheme} className={`text-white text-xs font-semibold ${theme === 'dark' ? 'bg-[#1A202C] text-white' : 'bg-white text-black'}`}>
           Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
         </button></div>
     </div>

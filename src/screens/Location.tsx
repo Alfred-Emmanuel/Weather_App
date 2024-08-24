@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
 import { TodayData } from '../types';
 import { useWeatherContext } from '../context/WeatherContext';
+import { useTheme } from '../context/ThemeContext';
 
 // Custom hook to change map view
 const ChangeView = ({ center, zoom }) => {
@@ -14,6 +15,7 @@ const ChangeView = ({ center, zoom }) => {
 };
 
 function Location() {
+  const { theme } = useTheme();
   const { weatherData, setQuery } = useWeatherContext();
   const [position, setPosition] = useState<[number, number]>([51.505, -0.09]);
   const [inputValue, setInputValue] = useState('');
@@ -38,8 +40,8 @@ function Location() {
   }
 
   return (
-    <div className='h-[80%] lg:h-screen w-full flex flex-col lg:flex-row items-center justify-between py-10 relative z-30'>
-        <div className='h-[40vh] lg:h-screen lg:py-5 px-5 lg:px-10 w-full lg:w-[63%] '>
+    <div className={`h-[80%] lg:h-screen w-full flex flex-col lg:flex-row items-center justify-between py-10 relative z-30 ${theme === 'dark' ? 'bg-[#121212]' : 'bg-[#F5F5F5]'}`}>
+  <div className='h-[40vh] lg:h-screen lg:py-5 px-5 lg:px-10 w-full lg:w-[63%] '>
             <div className='py-4 w-full'>
                 <form onSubmit={handleSearch} className='flex items-center justify-between'>
                     <input
@@ -72,73 +74,62 @@ function Location() {
                 </Marker>
             </MapContainer>
         </div>
-        <div className=' w-full mt-28 px-5 lg:px-0 lg:w-[35%] lg:h-screen lg:pt-10 pb-2 lg:pl-10'>
-            <div className='bg-[#202C3C] py-5 lg:py-0 lg:pt-5 w-full h-full rounded-lg lg:rounded-none lg:rounded-l-lg pl-5'>
-                <h1 className='uppercase font-semibold text-slate-300'>Weather Data</h1>
-                <div className='mt-5 pl-4 flex flex-col justify-center gap-6 '>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Temperature:</h1>
-                        <div className='flex items-center gap-1'>
-                            <img className='size-6' src={`${weatherData?.current.condition.icon}`} alt="moderate-rain"/>
-                            <p className='uppercase text-[0.7rem] font-semibold text-slate-500'>{weatherData?.current.condition.text}</p>
-                        </div>
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-300'> {weatherData?.current.temp_c}°C </p>
-
+    <div className={`w-full mt-28 px-5 lg:px-0 lg:w-[35%] lg:h-screen lg:pt-10 pb-2 lg:pl-10 ${theme === 'dark' ? 'bg-[#202C3C]' : 'bg-white'}`}>
+        <div className={`py-5 lg:py-0 lg:pt-5 w-full h-full rounded-lg lg:rounded-none lg:rounded-l-lg pl-5 ${theme === 'dark' ? 'bg-[#202C3C]' : 'bg-white'}`}>
+            <h1 className={`uppercase font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-[#202C3C]'}`}>Weather Data</h1>
+            <div className={`mt-5 pl-4 flex flex-col justify-center gap-6 ${theme === 'dark' ? 'text-slate-300' : 'text-[#202C3C]'}`}>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Temperature:</h1>
+                    <div className='flex items-center gap-1'>
+                        <img className='size-6' src={`${weatherData?.current.condition.icon}`} alt="weather-icon"/>
+                        <p className='uppercase text-[0.7rem] font-semibold'>{weatherData?.current.condition.text}</p>
+                        <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.temp_c}°C </p>
                     </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Pressure:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {weatherData?.current.pressure_mb}hPa </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Humidity:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {weatherData?.current.humidity}% </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Wind:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {weatherData?.current.wind_kph}km/h </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Visibility:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {weatherData?.current.vis_km}km </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>UV Index:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {weatherData?.current.uv} </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Sunrise:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {todayData?.astro.sunrise} </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Sunset:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {todayData?.astro.sunset} </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Sun Up:</h1>
-                        
-                        <p className='text-[0.7rem] font-semibold text-slate-500'> {todayData?.astro.is_sun_up === 0 ? "No" : "Yes"} </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Chance of Rain:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {todayData?.day.daily_chance_of_rain}% </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='uppercase text-xs font-semibold text-slate-300'>Chance of Snow:</h1>
-                        
-                        <p className='uppercase text-[0.7rem] font-semibold text-slate-500'> {todayData?.day.daily_chance_of_snow}% </p>
-                    </div>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Pressure:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.pressure_mb}hPa </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Humidity:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.humidity}% </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Wind:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.wind_kph}km/h </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Visibility:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.vis_km}km </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>UV Index:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {weatherData?.current.uv} </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Sunrise:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {todayData?.astro.sunrise} </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Sunset:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {todayData?.astro.sunset} </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Sun Up:</h1>
+                    <p className='text-[0.7rem] font-semibold'> {todayData?.astro.is_sun_up === 0 ? "No" : "Yes"} </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Chance of Rain:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {todayData?.day.daily_chance_of_rain}% </p>
+                </div>
+                <div className='flex items-center gap-4'>
+                    <h1 className='uppercase text-xs font-semibold'>Chance of Snow:</h1>
+                    <p className='uppercase text-[0.7rem] font-semibold'> {todayData?.day.daily_chance_of_snow}% </p>
                 </div>
             </div>
         </div>
     </div>
+</div>
   );
 }
 

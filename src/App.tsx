@@ -45,8 +45,8 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>      
       <WeatherProvider>
-        <main className='flex flex-col lg:flex-row lg:items-center lg:justify-center bg-[#0B131E] lg:overflow-hidden font-roboto'>
-          <section className='lg:hidden h-12 border-b border-gray-500 mb-3 flex items-center justify-between px-3'>
+        <main className={`flex flex-col lg:flex-row lg:items-center lg:justify-center lg:overflow-hidden font-roboto `}>
+          <section className='lg:hidden h-full py-3 mb-3 flex items-center justify-between px-3'>
             <div></div>
             <button onClick={toggleSidebar}> 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 text-slate-300">
